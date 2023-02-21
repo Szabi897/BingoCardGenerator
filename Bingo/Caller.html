@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bingo Number Caller</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			text-align: center;
+		}
+
+		h1 {
+			margin-top: 50px;
+		}
+
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			margin-top: 50px;
+		}
+
+		.number {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			width: 50px;
+			border-radius: 50%;
+			background-color: #ccc;
+			font-size: 24px;
+			font-weight: bold;
+			margin: 10px;
+		}
+
+		button {
+			margin-top: 20px;
+			padding: 10px;
+			font-size: 18px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+<body>
+	<h1>Bingo Number Caller</h1>
+	<button onclick="drawNumber()">Draw Number</button>
+	<div class="container"></div>
+
+	<script>
+		// create an array of numbers 1 to 75
+		const numbers = Array.from({length: 75}, (_, i) => i + 1);
+
+		// shuffle the numbers randomly
+		function shuffle(array) {
+			for (let i = array.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[array[i], array[j]] = [array[j], array[i]];
+			}
+			return array;
+		}
+		const shuffledNumbers = shuffle(numbers);
+
+		// function to draw a random number from the shuffled array
+		function drawNumber() {
+			const container = document.querySelector('.container');
+			container.innerHTML = '';
+
+			const letterNumberCombinations = ['B', 'I', 'N', 'G', 'O'];
+
+			// iterate through the letter-number combinations
+			for (let i = 0; i < letterNumberCombinations.length; i++) {
+				const number = shuffledNumbers.pop();
+
+				if (number !== undefined) {
+					// create a new number element with the appropriate letter-number combination
+					const numberElement = document.createElement('div');
+					numberElement.classList.add('number');
+					numberElement.innerText = `${letterNumberCombinations[i]}-${number}`;
+
+					// add the new element to the container
+					container.appendChild(numberElement);
+				}
+			}
+
+			if (shuffledNumbers.length === 0) {
+				// if there are no more numbers left in the array, add a "Start New Game" button
+				const newGameButton = document.createElement('button');
+				newGameButton.innerText = 'Start New Game';
+				newGameButton.onclick = startNewGame;
+
+				container.appendChild(newGameButton);
+			}
+		}
+
+		// function to start a new game
+		function startNewGame() {
+			location.reload();
+		}
+	</script>
+</body>
+</html>

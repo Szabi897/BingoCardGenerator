@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hyper Bingo Card Generator</title>
+</head>
+<body>
+    <section>
+	<h1>Hyper Bingo Card Generator</h1>
+	
+	<!-- Generate button -->
+	<button class="generate" onclick="generateCards()">Generate</button>
+	<!-- Print button -->
+	<button class="print" onclick="printCards()">Print</button>
+	<!-- Caller Button -->
+    <button class="caller" onclick="window.location.href='Caller.html'">Bingo Number Caller</button>
+    <!-- Buy Neon -->
+    <button class="neon" onclick="window.location.href='https://sites.google.com/view/hyper-neon/home'">Buy Hyper Neon</button>
+
+	</section>
+	
+	<!-- Placeholder for generated cards -->
+	<div id="cards"></div>
+
+	<script>
+		// Function to generate bingo cards
+		function generateCards() {
+			let cards = [];
+			for (let i = 0; i < 12; i++) {
+				let card = [];
+				for (let j = 1; j <= 75; j++) {
+					card.push(j);
+				}
+				card = removeDuplicates(card);
+				cards.push(card);
+			}
+			displayCards(cards);
+		}
+
+		// Function to remove duplicates from card
+		function removeDuplicates(card) {
+			let uniqueCard = [];
+			while (uniqueCard.length < 25 && card.length > 0) {
+				let randomIndex = Math.floor(Math.random() * card.length);
+				let randomValue = card.splice(randomIndex, 1)[0];
+				if (uniqueCard.indexOf(randomValue) === -1) {
+					uniqueCard.push(randomValue);
+				}
+			}
+			return uniqueCard;
+		}
+
+		// Function to display generated cards
+		function displayCards(cards) {
+    let cardsContainer = document.getElementById("cards");
+    cardsContainer.innerHTML = "";
+    for (let i = 0; i < 4; i++) {
+        let row = document.createElement("div");
+        row.classList.add("row");
+        for (let j = 0; j < 3; j++) {
+            let card = cards[i * 3 + j];
+            let cardContainer = document.createElement("div");
+            cardContainer.classList.add("card");
+            let bingoContainer = document.createElement("div");
+            bingoContainer.classList.add("bingo");
+            let bingoText = ["B", "I", "N", "G", "O"];
+            for (let k = 0; k < 5; k++) {
+                let bingoLetter = document.createElement("div");
+                bingoLetter.classList.add("bingo-letter");
+                bingoLetter.innerHTML = bingoText[k];
+                bingoContainer.appendChild(bingoLetter);
+            }
+            cardContainer.appendChild(bingoContainer);
+            let gridContainer = document.createElement("div");
+            gridContainer.classList.add("grid-container");
+            for (let k = 0; k < 25; k++) {
+                let cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.innerHTML = card[k] || "";
+                gridContainer.appendChild(cell);
+            }
+            cardContainer.appendChild(gridContainer);
+            row.appendChild(cardContainer);
+        }
+        cardsContainer.appendChild(row);
+    }
+}
+
+
+		// Function to print generated cards
+		function printCards() {
+			window.print();
+		}
+	</script>
+
+	
+	<style>
+
+		body {
+			background-color: #f5f5f5;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			color: #333;
+			margin: 0;
+			padding: 0;
+		}
+		
+            section {
+        background: #272727;
+        color: #FFB200;
+        border-radius: 1em;
+        padding: 1em;
+        justify-content: center;
+        text-align: center;
+        }
+        
+        .generate{
+            margin-right: 20px;
+        }
+        .print{
+            margin-right: 20px;
+        }        
+        .caller{
+            margin-right: 20px;
+        }		
+        .neon{
+            margin-right: 20px;
+        }		
+		
+		
+		
+		.header {
+			background-color: #4CAF50;
+			padding: 20px;
+			text-align: center;
+			color: #fff;
+			box-shadow: 0 2px 5px #888888;
+		}
+		
+		.title {
+			font-size: 36px;
+			margin: 0;
+			justify-content: center;
+		}
+		
+		.description {
+			font-size: 18px;
+			margin: 10px 0;
+			justify-content: center;
+		}
+		
+		button {
+			background-color: #4CAF50;
+			border: none;
+			color: #fff;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 10px 0;
+			cursor: pointer;
+			box-shadow: 0 2px 5px #888888;
+			transition: background-color 0.3s ease;
+			justify-content: center;
+		}
+		
+		button:hover {
+			background-color: #3e8e41;
+		}
+		
+		#cards {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			margin-top: 20px;
+		}
+		
+		.row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			margin-bottom: 20px;
+		}
+		
+		.card {
+			display: flex;
+			flex-direction: column;
+			background-color: #ffffff;
+			padding: 10px;
+			box-shadow: 2px 2px 5px #888888;
+			margin-right: 20px;
+			width: 240px;
+			height: 320px;
+		}
+		
+		.bingo {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			font-weight: bold;
+			font-size: 20px;
+			margin-bottom: 10px;
+		}
+		
+		.bingo-letter {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid #dddddd;
+			font-size: 20px;
+			font-weight: bold;
+			width: 30px;
+			height: 30px;
+			margin: 5px;
+		}
+		
+		.cell {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid #dddddd;
+			font-size: 20px;
+			font-weight: bold;
+			width: 30px;
+			height: 30px;
+			margin: 5px;
+		}
+
+		.row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			margin-bottom: 20px;
+		}
+		
+		.card {
+			display: flex;
+			flex-direction: column;
+			background-color: #ffffff;
+			padding: 10px;
+			box-shadow: 2px 2px 5px #888888;
+		margin-right: 20px;
+		width: 240px;
+		height: 320px;
+	}
+	
+		.bingo {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		font-weight: bold;
+		font-size: 20px;
+		margin-bottom: 10px;
+	}
+	
+		.bingo-letter {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #dddddd;
+		font-size: 20px;
+		font-weight: bold;
+		width: 30px;
+		height: 30px;
+		margin: 5px;
+	}
+	
+		.cell {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #dddddd;
+		font-size: 20px;
+		font-weight: bold;
+		width: 30px;
+		height: 30px;
+		margin: 5px;
+	}
+	
+		.grid-container {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		grid-template-rows: repeat(5, 1fr);
+		gap: 5px;
+		margin-top: 10px;
+	}
+
+</style>
+</body>
+</html> 
